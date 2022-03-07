@@ -1,0 +1,22 @@
+# Pipeline definition that runs CI automatically for the master branch.
+pr: none
+trigger:
+  branches:
+    include:
+      - master
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+  - stage: "Build_Push_Azure_App_Image"
+    displayName: "Build and Push Azure App Image"
+    jobs:
+      - job: "Build_Push_App_Image"
+        displayName: "Build Push App Image"
+        steps:
+          - template: build-container-template.yaml
+            parameters:
+            
+
+  
+      
