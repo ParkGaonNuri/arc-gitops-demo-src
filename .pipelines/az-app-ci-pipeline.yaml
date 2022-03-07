@@ -25,6 +25,9 @@ stages:
             acr: $(AZ_ACR_NAME)
             repository: azapp/azure-app-front
             taskname: "HelloWorld_image"
+          - publish: $(Pipeline.Workspace)/image_tags
+            artifact: image_tags
+            displayName: "Publish Image Tags"
 
             
 
