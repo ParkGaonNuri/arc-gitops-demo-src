@@ -4,6 +4,10 @@ trigger:
   branches:
     include:
       - master
+
+variables:
+  - group: az-app-variables
+
 pool:
   vmImage: ubuntu-latest
 
@@ -16,6 +20,12 @@ stages:
         steps:
           - template: build-container-template.yaml
             parameters:
+            sourceLocation: /azure-app
+            dockerFile: "Dockerfile"
+            acr: $(AZ_ACR_NAME)
+            repository: azapp/azure-app-front
+            taskname: "HelloWorld_image"
+
             
 
   
