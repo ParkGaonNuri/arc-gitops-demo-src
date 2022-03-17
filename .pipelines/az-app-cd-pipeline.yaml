@@ -17,12 +17,8 @@ name: $(Date:yyyyMMdd)$(Rev:.r)
 
 variables:
   - group: az-app-variables
-  - name: images_artifact_path
-    value: $(Pipeline.Workspace)/az-vote-ci/image_tags
   - name: manifests_artifact_path
-    value: $(Pipeline.Workspace)/az-vote-ci/manifests
-  - name: utils_artifact_path
-    value: $(Pipeline.Workspace)/az-vote-ci/utils
+    value: $(Pipeline.Workspace)/azure-app-ci/manifests
 
 pool:
   vmImage: ubuntu-latest
