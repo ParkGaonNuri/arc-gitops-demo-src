@@ -9,4 +9,4 @@ spec:
     targetPort: 3000
   selector:
     app: azure-app
-  type: ClusterIP
+  type: LoadBalancer
