@@ -21,7 +21,8 @@ steps:
     name: "${{ parameters.taskname }}"
     displayName: Build and Push ${{ parameters.repository }}
     inputs:
-      azureSubscription: $(AZURE_SUBSCRIPTION
+      azureSubscription: $(AZURE_SUBSCRIPTION)
+      scriptLocation: inlineScript
       inlineScript: |
         set -euxo pipefail  # fail on error
         pushd ${{ parameters.sourceLocation }}
