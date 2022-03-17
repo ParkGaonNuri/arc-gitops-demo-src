@@ -20,14 +20,16 @@ stages:
         steps:
           - template: build-container-template.yaml
             parameters:
-            sourceLocation: /azure-app
+            sourceLocation: $(SRC_FOLDER)/src/
             dockerFile: "Dockerfile"
             acr: $(AZ_ACR_NAME)
-            repository: azapp/azure-app-front
+            repository: azapp/azure-app
             taskname: "HelloWorld_image"
-          - publish: $(Pipeline.Workspace)/image_tags
-            artifact: image_tags
-            displayName: "Publish Image Tags"
+          - publish: $(SRC_FOLDER)/manifests
+            artifact: manifests
+            displayName: "Publish Manifests Templates"
+            
+
 
             
 
