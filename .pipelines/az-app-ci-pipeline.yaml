@@ -22,7 +22,7 @@ stages:
             displayName: "Build and push an image to container registry"
             inputs:
               command: buildAndPush
-              repository: azapp/azure-app
+              repository: azapp
               dockerFile: $(SRC_FOLDER)/src/Dockerfile
               containerRegistry: $(AZURE_SUBSCRIPTION)
             
