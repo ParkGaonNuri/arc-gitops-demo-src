@@ -18,6 +18,8 @@ stages:
       - job: "Build_Push_App_Image"
         displayName: "Build Push App Image"
         steps:
+          - checkout: self
+            persistCredentials: true
           - task: Docker@2
             displayName: "Build and push an image to container registry"
             inputs:
@@ -25,10 +27,24 @@ stages:
               repository: azapp
               dockerFile: $(SRC_FOLDER)/src/Dockerfile
               containerRegistry: $(AZURE_SUBSCRIPTION)
-            
-
-
-            
-
-  
-      
+          - task: Bash@3
+            displayName: "Generate manifests"
+            inputs:
+              targetType: 'inline'
+              script: |
+                cat azure-app/manifests/deployment.yaml | sed -e "s|ACR_REPO_URL|$ACR_REPO_URL|;s|BUILD_ID|$(Build.BuildID)|" > azure-app.yaml
+                cat azure-app.yaml
+          - task: Bash@3
+            displayName: "Push to gitops repository"
+            inputs:
+              targetType: 'inline'
+              script: |
+                ls -al
+                git clone https://$(GITOPS_USER):$(GITOPS_TOKEN)@dev.azure.com/psangah/$(System.TeamProject)/_git/$(GITOPS_REPO)
+                cp -rf azure-app.yaml $(GITOPS_REPO)/azure-app-manifests/arc-eks-demo/manifests/app/azure-app.yaml
+                cd $(GITOPS_REPO)
+                git config --global user.email "lhs@mz.co.kr"
+                git config --global user.name "$(GITOPS_USER)"
+                git add .
+                git commit -m "$(Build.BuildNumber)"
+                git push 
