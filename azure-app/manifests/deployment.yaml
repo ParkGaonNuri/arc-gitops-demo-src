@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: azure-app
+  namespace: app
+spec:
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
+  selector:
+    app: azure-app
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: azure-app
+  namespace: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: azure-app
+  template:
+    metadata:
+      labels:
+        app: azure-app
+    spec:
+      containers:
+      - name: azure-app
+        image: ACR_REPO_URL/azapp:BUILD_ID
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+      imagePullSecrets:
+        - name: acr-secret
